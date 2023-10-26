@@ -3,7 +3,6 @@ const app = express();
 const cors = require("cors");
 const googleAuth = require("./api/googleAuth");
 
-
 app.use(cors());
 app.use(express.json());
 
@@ -21,7 +20,7 @@ app.get("/api/pariwisata", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  res.json("ROUTE MAIN");
+  res.json("HAYO MAU NGAPAIN BANG? IZIN DULU GIH KALAU MAU MASUK KE SINI!");
 });
 
 app.all("*", (req, res) => {
