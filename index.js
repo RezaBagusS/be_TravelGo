@@ -20,6 +20,10 @@ app.get("/api/pariwisata", (req, res) => {
   res.json("INI PARIWISATA LOH!");
 });
 
+app.get("/", (req, res) => {
+  res.json("ROUTE MAIN");
+});
+
 app.all("*", (req, res) => {
   res.status(404).json({ message: "Route not found" });
 });
