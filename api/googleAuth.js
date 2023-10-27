@@ -5,26 +5,25 @@ const client = new OAuth2Client(clientId);
 
 const googleAuth = async (req, res) => {
   try {
-    const { token } = req.body; // Ambil token akses dari respons Google di frontend
+    const { token } = req.body; 
 
-    // Verifikasi token akses dengan Google
     const ticket = await client.verifyIdToken({
       idToken: token,
-      audience: clientId, // Pastikan client ID direspons dari Google sesuai dengan yang Anda daftarkan
+      audience: clientId, 
     });
 
     const payload = ticket.getPayload();
-    const userId = payload["sub"]; // ID unik pengguna
-    // Di sini, Anda bisa melakukan autentikasi pengguna atau tindakan lainnya sesuai kebutuhan Anda
+    const userId = payload["sub"]; 
 
     res.status(200).json({
         message: "Otentikasi berhasil",
         userId,
         email: payload.email,
-    }); // Respon positif jika otentikasi berhasil
+        img: payload.picture
+    }); 
   } catch (error) {
     console.error(error);
-    res.status(401).send("Otentikasi gagal"); // Respon negatif jika otentikasi gagal
+    res.status(401).send("Otentikasi gagal"); 
   }
 };
 
