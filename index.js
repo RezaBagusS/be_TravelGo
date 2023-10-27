@@ -2,13 +2,11 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const googleAuth = require("./api/googleAuth");
-const sendEmail = require("./api/sendEmail");
 
 app.use(cors());
 app.use(express.json());
 
 app.post("/api/auth/google", googleAuth);
-app.post("/api/send-email", sendEmail);
 
 app.get("/api/hello", (req, res) => {
   res.json({ message: "Hello from Express API!" });
