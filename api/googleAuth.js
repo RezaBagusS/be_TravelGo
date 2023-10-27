@@ -19,7 +19,8 @@ const googleAuth = async (req, res) => {
         message: "Otentikasi berhasil",
         userId,
         email: payload.email,
-        img: payload.picture
+        img: payload.picture,
+        name: payload.name,
     }); 
   } catch (error) {
     console.error(error);
