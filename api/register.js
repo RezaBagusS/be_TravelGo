@@ -5,38 +5,46 @@ const register = async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
-    const { data } = await supabase
+    const { data: existingUsers, error } = await supabase
       .from("allUser")
-      .select("name, email, password");
+      .select("email")
+      .eq("email", email);
 
-    let isNotAvailable = data.some((item) => {
-      return item.username === username || item.email === email;
-    });
-
-    if (isNotAvailable) {
-      return res.status(400).json({
+    if (error) {
+      return res.status(500).json({
         status: "error",
-        message: "Username/Email sudah terdaftar",
+        message: "Error saat mengecek daftar pengguna",
       });
     }
 
-    const hashPassword = async () => {
-      const result = await bcrypt.hash(password, 10);
-      const insertData = await supabase
-        .from("dataUser")
-        .insert([{ name: name, email: email, password: result }]);
-    };
+    if (existingUsers.length > 0) {
+      return res.status(400).json({
+        status: "error",
+        message: "Email sudah terdaftar",
+      });
+    }
 
-    hashPassword();
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const { insertError } = await supabase
+      .from("allUser")
+      .insert([{ name: name, email: email, password: hashedPassword }]);
+
+    if (insertError) {
+      return res.status(500).json({
+        status: "error",
+        message: "Gagal mendaftarkan pengguna baru",
+      });
+    }
 
     return res.status(200).json({
       status: "success",
-      message: "Register Success",
+      message: "Registrasi berhasil",
     });
   } catch (error) {
     return res.status(500).json({
       status: "error",
-      message: "Register Failed",
+      message: "Gagal mendaftarkan pengguna baru",
     });
   }
 };
