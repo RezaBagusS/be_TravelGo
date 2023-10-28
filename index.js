@@ -3,12 +3,14 @@ const app = express();
 const cors = require("cors");
 const googleAuth = require("./api/googleAuth");
 const register = require("./api/register");
+const login = require("./api/login");
 
 app.use(cors());
 app.use(express.json());
 
 app.post("/api/auth/google", googleAuth);
 app.post("/api/auth/register", register);
+app.post("/api/auth/login", login);
 
 app.get("/api/hello", (req, res) => {
   res.json({ message: "Hello from Express API!" });
