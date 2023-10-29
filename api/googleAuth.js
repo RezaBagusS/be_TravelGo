@@ -5,26 +5,29 @@ const client = new OAuth2Client(clientId);
 
 const googleAuth = async (req, res) => {
   try {
-    const { token } = req.body; 
+    const { token } = req.body;
 
     const ticket = await client.verifyIdToken({
       idToken: token,
-      audience: clientId, 
+      audience: clientId,
     });
 
     const payload = ticket.getPayload();
-    const userId = payload["sub"]; 
+    const userId = payload["sub"];
 
     res.status(200).json({
-        message: "Otentikasi berhasil",
-        userId,
-        email: payload.email,
-        img: payload.picture,
-        name: payload.name,
-    }); 
+      message: "Otentikasi berhasil",
+      userId,
+      email: payload.email,
+      img: payload.picture,
+      name: payload.name,
+    });
   } catch (error) {
     console.error(error);
-    res.status(401).send("Otentikasi gagal"); 
+    res.status(401).json({
+      status: "error",
+      message: "Otentikasi gagal, harap coba kembali!!",
+    });
   }
 };
 
