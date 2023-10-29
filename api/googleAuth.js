@@ -62,6 +62,13 @@ const googleAuth = async (req, res) => {
       img: payload.picture,
       name: payload.name,
       isAdmin: user.data[0].isAdmin,
+      token: generateToken({
+        id: user.data[0].id,
+        name: user.data[0].name,
+        isAdmin: user.data[0].isAdmin,
+        email: user.data[0].email,
+        img: user.data[0].img,
+      }),
     });
   } catch (error) {
     console.error(error);
