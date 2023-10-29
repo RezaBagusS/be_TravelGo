@@ -11,6 +11,13 @@ const login = async (req, res) => {
       .select("password")
       .eq("name", name);
 
+    if (pass.data.length == 0) {
+      return res.status(401).json({
+        status: "error",
+        message: "Akun tidak ditemukan!!",
+      });
+    }
+
     const compareHash = async () => {
       const result = await bcrypt.compare(password, pass.data[0].password);
       // console.log(result);
@@ -23,7 +30,7 @@ const login = async (req, res) => {
         .select("id, name, email, isAdmin, img")
         .eq("name", name);
 
-    //   console.log(data);
+      //   console.log(data);
 
       return res.json({
         status: "success",
@@ -44,15 +51,15 @@ const login = async (req, res) => {
         },
       });
     } else {
-        return res.status(401).json({
-            status: "error",
-            message: "Salah Password",
-        });
+      return res.status(401).json({
+        status: "error",
+        message: "Password yang anda masukkan salah!!",
+      });
     }
   } catch (error) {
     return res.status(500).json({
       status: "error",
-      message: "Login gagal ulang kembali!!",
+      message: "Outentikasi bermasalah, silahkan coba lagi!!",
     });
   }
 };
