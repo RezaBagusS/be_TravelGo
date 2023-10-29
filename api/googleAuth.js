@@ -1,5 +1,5 @@
 const { OAuth2Client } = require("google-auth-library");
-
+const bcrypt = require("bcrypt");
 const clientId = process.env.CLIENT_ID_DEV;
 const client = new OAuth2Client(clientId);
 const supabase = require("../database/initDB");
@@ -18,7 +18,7 @@ const googleAuth = async (req, res) => {
 
     const user = await supabase
       .from("allUser")
-      .select("email")
+      .select("email, isAdmin")
       .eq("name", payload.name);
 
     if (user.data.length == 0) {
@@ -55,11 +55,13 @@ const googleAuth = async (req, res) => {
     }
 
     res.status(200).json({
+      status: "success",
       message: "Otentikasi berhasil",
       userId,
       email: payload.email,
       img: payload.picture,
       name: payload.name,
+      isAdmin: user.data[0].isAdmin,
     });
   } catch (error) {
     console.error(error);
