@@ -39,12 +39,12 @@ const register = async (req, res) => {
 
     return res.status(200).json({
       status: "success",
-      message: "Registrasi berhasil",
+      message: "Berhasil mendaftarkan pengguna baru",
     });
   } catch (error) {
     return res.status(500).json({
       status: "error",
-      message: "Gagal mendaftarkan pengguna baru",
+      message: "Outentikasi gagal, harap coba kembali!!",
     });
   }
 };
