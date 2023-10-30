@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const clientId = process.env.CLIENT_ID_DEV;
 const client = new OAuth2Client(clientId);
 const supabase = require("../database/initDB");
+const { generateToken } = require("../handlers/jwt");
 
 const googleAuth = async (req, res) => {
   try {
