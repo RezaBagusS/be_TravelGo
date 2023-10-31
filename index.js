@@ -5,12 +5,14 @@ const googleAuth = require("./api/googleAuth");
 const register = require("./api/register");
 const login = require("./api/login");
 const getAllDataWisata = require("./api/getAllDataWisata");
+const verify = require("./api/verify");
 
 app.use(cors());
 app.use(express.json());
 
 app.post("/api/auth/google", googleAuth);
 app.post("/api/auth/register", register);
+app.post("/api/auth/decode", verify);
 app.post("/api/auth/login", login);
 app.post("/api/data/wisata", getAllDataWisata);
 
