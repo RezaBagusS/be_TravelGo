@@ -14,20 +14,19 @@ const updateDataWisata = async (req, res) => {
       });
     }
 
-    console.log(data);
-
     const { error } = await supabase
       .from("DataWisata")
-      .update([
+      .update(
         {
           nama: data.nama,
           deskripsi: data.deskripsi,
           lokasi: data.lokasi,
           gambar: data.gambar,
           virtualTour: data.virtualTour,
-        },
-      ])
+        }
+      )
       .eq("id", data.id);
+
 
     if (error) {
       return res.status(500).json({
